@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track This Item</title>
+</head>
+<body>
+    <h2>You've Found the Item!</h2>
+    <p>Click the button below to submit its location.</p>
+    <button onclick="submitLocation()">Send Location</button>
+    <p id="status"></p>
+
+    <script>
+        function submitLocation() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    let lat = position.coords.latitude;
+                    let lon = position.coords.longitude;
+                    
+                    // Replace with your actual Google Form pre-fill link
+                    let formURL = "https://docs.google.com/forms/d/e/your-form-id/viewform?usp=pp_url&entry.your-entry-id=" + encodeURIComponent(`Lat: ${lat}, Lon: ${lon}`);
+                    
+                    window.location.href = formURL;
+                }, function(error) {
+                    document.getElementById("status").innerText = "Location access denied.";
+                });
+            } else {
+                document.getElementById("status").innerText = "Geolocation is not supported.";
+            }
+        }
+    </script>
+</body>
+</html>
